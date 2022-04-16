@@ -1,7 +1,7 @@
 # quote_machine
 JS-projects-1.20
 
-# Resurces
+# Resources
 1. Background by [heropatterns.com](https://heropatterns.com/)
 2. Favicon with css-trick [css-tricks.com](https://css-tricks.com/favicons-next-to-external-links/)
 3. Quote API by [forismatic.com](https://forismatic.com/en/api/)
