@@ -6,7 +6,7 @@ const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
-async function getQuote() {
+async function getQuote(attempts) {
     showLoadingSpinner();
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const apiUrl = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
@@ -24,15 +24,19 @@ async function getQuote() {
             quoteText.classList.remove('long-quote');
         }
         quoteText.innerText = data.quoteText;
-        reoveLoadingSpinner();
+        removeLoadingSpinner();
     } catch(e) {
-        setTimeout(() => {
-            getQuote();
-        }, 1500); 
-    } finally {
-
+        console.log(attempts);
+        if (attempts < 5) {
+            setTimeout(() => {
+                getQuote(attempts + 1);
+            }, 1500);
+        } else {
+            quoteText.innerText = 'Programm Erorr:: there is no any quote yet';
+            quoteAuthor.innerText = 'Quote-Machine';
+            removeLoadingSpinner();
+        }
     }
-
 }
 
 function tweetQuote() {
@@ -48,14 +52,14 @@ function showLoadingSpinner() {
     quoteBox.hidden = true;
 }
 
-function reoveLoadingSpinner() {
+function removeLoadingSpinner() {
     if (!loader.hidden) {
         loader.hidden = true;
         quoteBox.hidden = false;
     }
 }
 
-newQuoteBtn.addEventListener('click', getQuote);
+newQuoteBtn.addEventListener('click', () => getQuote(1));
 twitterBtn.addEventListener('click', tweetQuote);
 
-getQuote();
+getQuote(1);
